@@ -1,45 +1,22 @@
-#!/usr/bin/python3
-""" Python script that takes in a string and sends a search request to the
+#!/usr/bin/node
 
-import sys
+const request = require('request');
+const filmId = process.argv[2];
+const url = `https://swapi-api.hbtn.io/api/films/${filmId}`;
 
-codes = {}
-status_codes = ['200', '301', '400', '401', '403', '404', '405', '500']
-count = 0
-size = 0
-
-try:
-    for ln in sys.stdin:
-        if count == 10:
-            print("File size: {}".format(size))
-            for key in sorted(codes):
-                print("{}: {}".format(key, codes[key]))
-            count = 1
-        else:
-            count += 1
-
-        ln = ln.split()
-
-        try:
-            size = size + int(ln[-1])
-        except (IndexError, ValueError):
-            pass
-
-        try:
-            if ln[-2] in status_codes:
-                if codes.get(ln[-2], -1) == -1:
-                    codes[ln[-2]] = 1
-                else:
-                    codes[ln[-2]] += 1
-        except IndexError:
-            pass
-
-    print("File size: {}".format(size))
-    for key in sorted(codes):
-        print("{}: {}".format(key, codes[key]))
-
-except KeyboardInterrupt:
-    print("File size: {}".format(size))
-    for key in sorted(codes):
-        print("{}: {}".format(key, codes[key]))
-    raise
+request(url, async (err, response, body) => {
+  if (err) {
+    console.log(err);
+  }
+  for (const characterId of JSON.parse(body).characters) {
+    await new Promise((resolve, reject) => {
+      request(characterId, (err, response, body) => {
+        if (err) {
+          reject(err);
+        }
+        console.log(JSON.parse(body).name);
+        resolve();
+      });
+    });
+  }
+});
