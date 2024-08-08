@@ -2,8 +2,8 @@
 
 def isWinner(x, nums):
     def sieve(n):
-        """ Helper function to compute prime numbers
-        up to n using Sieve of Eratosthenes """
+        """Helper function to compute prime
+        numbers up to n using Sieve of Eratosthenes."""
         is_prime = [True] * (n + 1)
         p = 2
         while p * p <= n:
@@ -14,8 +14,8 @@ def isWinner(x, nums):
         return [p for p in range(2, n + 1) if is_prime[p]]
 
     def play_game(n):
-        """ Simulates a single game of choosing primes
-        and removing primes and their multiples """  # noqa
+        """Simulates a single game of choosing
+        primes and removing primes and their multiples."""
         primes = sieve(n)
         prime_set = set(primes)
         turn = 0  # 0 for Maria's turn, 1 for Ben's turn
