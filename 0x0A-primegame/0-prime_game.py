@@ -3,7 +3,7 @@
 
 
 def isWinner(x, nums):
-  """function that retrieve the winner"""
+    """function that retrieve the winner"""
     def sieve(n):
         """Helper function to compute prime numbers up to n."""
         is_prime = [True] * (n + 1)
